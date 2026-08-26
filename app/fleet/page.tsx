@@ -19,12 +19,18 @@ export default function FleetPage() {
   }, [filter]);
 
   return (
-    <div className="py-16 sm:py-24">
-      <Container>
+    <div className="relative py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
+      {/* Background glow orbs */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute left-1/4 top-10 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-emerald)" }} />
+        <div className="absolute right-1/4 bottom-10 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-gold)" }} />
+      </div>
+
+      <Container className="relative">
         <FadeIn>
           <SectionHeading
-            eyebrow="Our fleet"
-            title="Six vehicles. One reliable standard."
+            eyebrow="Our Fleet"
+            title="Six Vehicles. One Reliable Standard."
             description="Every vehicle is GPS-tracked, regularly serviced, and comes with an experienced driver. Pick the size that fits your group, then get an instant fare in our estimator."
           />
         </FadeIn>
@@ -41,17 +47,26 @@ export default function FleetPage() {
           ))}
         </div>
 
-        <FadeIn delay={0.1} className="mt-14 rounded-2xl border border-gray-100 bg-gray-50 p-8 text-center">
-          <h3 className="text-lg font-semibold text-gray-900">Need a vehicle outside this list?</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            Sedans, Innova Crysta and larger coaches are available on request — message us
-            directly for a custom quote.
+        <FadeIn delay={0.1} className="mt-14 rounded-3xl p-8 sm:p-10 text-center"
+          style={{
+            background: "var(--glass-bg)",
+            border: "1px solid var(--glass-border)",
+            backdropFilter: "blur(16px)",
+          }}
+        >
+          <h3 className="text-xl font-bold text-white">Need a vehicle outside this list?</h3>
+          <p className="mt-2 text-sm max-w-lg mx-auto leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            Sedans, Innova Crysta, premium Volvo and BharatBenz luxury coaches are available on request — contact our desk directly for a customized quote.
           </p>
           <a
             href="/contact"
-            className="mt-5 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-500"
+            className="mt-6 inline-flex items-center justify-center rounded-xl px-7 py-3.5 text-sm font-bold text-white transition-all"
+            style={{
+              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+              boxShadow: "0 0 25px rgba(16, 185, 129, 0.35)",
+            }}
           >
-            Contact us
+            Contact Operations Desk
           </a>
         </FadeIn>
       </Container>

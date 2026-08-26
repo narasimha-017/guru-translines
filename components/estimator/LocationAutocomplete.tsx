@@ -1,20 +1,25 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { loadGoogleMaps, isGoogleMapsConfigured } from "@/lib/googleMaps";
+import { MapPin, X } from "lucide-react";
+import { isGoogleMapsConfigured, loadGoogleMaps } from "@/lib/googleMaps";
 
 export interface LocationValue {
   description: string;
+  lat?: number;
+  lng?: number;
   placeId?: string;
-  lat?: number | null;
-  lng?: number | null;
 }
 
 interface LocationAutocompleteProps {
   label: string;
-  placeholder?: string;
+  placeholder: string;
   value: LocationValue;
-  onChange: (value: LocationValue) => void;
+  onChange: (val: LocationValue) => void;
+  required?: boolean;
+  error?: string;
+  hint?: string;
+  onSelectCoordinates?: (lat: number, lng: number) => void;
   icon?: React.ReactNode;
 }
 
@@ -23,117 +28,112 @@ export default function LocationAutocomplete({
   placeholder,
   value,
   onChange,
+  required,
+  error,
+  hint,
+  onSelectCoordinates,
   icon,
 }: LocationAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const autocompleteRef = useRef<any>(null);
-  const configured = isGoogleMapsConfigured();
-  const [mapsReady, setMapsReady] = useState(false);
-  const [loadFailed, setLoadFailed] = useState(false);
-  const mapsFailed = !configured || loadFailed;
+  const [inputValue, setInputValue] = useState(value.description || "");
+
 
   useEffect(() => {
-    if (!configured) return;
+    setInputValue(value.description || "");
+  }, [value.description]);
+
+  useEffect(() => {
+    if (!isGoogleMapsConfigured() || !inputRef.current) return;
+
+    let autocomplete: any = null;
 
     loadGoogleMaps()
-      .then(() => setMapsReady(true))
-      .catch((error) => {
-        console.error("[LocationAutocomplete] loadGoogleMaps() failed:", error);
-        setLoadFailed(true);
-      });
-  }, [configured]);
+      .then(() => {
+        if (!inputRef.current || !window.google?.maps?.places) return;
 
-  // These setState calls are synchronous, intentional bail-outs based on
-  // conditions already known when the effect runs (not async/race-prone
-  // data fetching), so this rule doesn't apply here.
-  /* eslint-disable react-hooks/set-state-in-effect */
-  useEffect(() => {
-    if (!mapsReady || !inputRef.current || autocompleteRef.current) return;
-
-    if (!window.google) {
-      console.error(
-        "[LocationAutocomplete] window.google is not defined — the Google Maps script did not load."
-      );
-      setLoadFailed(true);
-      return;
-    }
-    if (!window.google.maps) {
-      console.error(
-        "[LocationAutocomplete] window.google.maps is not defined — the Maps JavaScript API failed to initialize."
-      );
-      setLoadFailed(true);
-      return;
-    }
-    if (!window.google.maps.places) {
-      console.error(
-        "[LocationAutocomplete] window.google.maps.places is not defined — the Places library did not finish loading. Check that the Places API is enabled for this key."
-      );
-      setLoadFailed(true);
-      return;
-    }
-
-    try {
-      autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-        componentRestrictions: { country: "in" },
-        // "geometry" is added so that place.geometry.location gives us lat/lng
-        // immediately on selection — without it the map markers can't be placed
-        // and the camera can't pan to an autocomplete-picked location. All other
-        // fields are unchanged from the original.
-        fields: ["place_id", "formatted_address", "name", "geometry"],
-      });
-
-      autocompleteRef.current.addListener("place_changed", () => {
-        const place = autocompleteRef.current?.getPlace();
-        if (!place) return;
-
-        // Extract lat/lng from the geometry field now that we request it.
-        // Falls back gracefully to null if geometry is absent for any reason
-        // (e.g. the user pressed Enter without selecting a suggestion).
-        const lat: number | null = place.geometry?.location?.lat?.() ?? null;
-        const lng: number | null = place.geometry?.location?.lng?.() ?? null;
-
-        onChange({
-          description: place.formatted_address ?? place.name ?? inputRef.current?.value ?? "",
-          placeId: place.place_id,
-          lat,
-          lng,
+        autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
+          componentRestrictions: { country: "in" },
+          fields: ["place_id", "geometry", "formatted_address", "name"],
         });
+
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          if (!place || !place.geometry) return;
+
+          const desc = place.formatted_address || place.name || "";
+          const lat = place.geometry.location.lat();
+          const lng = place.geometry.location.lng();
+
+          onChange({
+            description: desc,
+            placeId: place.place_id,
+            lat,
+            lng,
+          });
+
+          onSelectCoordinates?.(lat, lng);
+        });
+      })
+      .catch(() => {
+        // Fallback to manual text input silently
       });
-    } catch (error) {
-      console.error("[LocationAutocomplete] Failed to initialize Google Places Autocomplete:", error);
-      setLoadFailed(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapsReady]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+
+    return () => {
+      if (autocomplete && window.google?.maps?.event) {
+        window.google.maps.event.clearInstanceListeners(autocomplete);
+      }
+    };
+  }, [onChange, onSelectCoordinates]);
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const text = e.target.value;
+    setInputValue(text);
+    onChange({ description: text });
+  }
+
+  function handleClear() {
+    setInputValue("");
+    onChange({ description: "" });
+  }
 
   return (
-    <div>
-      <label className="mb-1.5 block text-sm font-medium text-gray-700">{label}</label>
+    <div className="relative">
+      <div className="flex items-center justify-between">
+        <label className="mb-2 block text-sm font-semibold text-white">
+          {label} {required && <span className="text-emerald-400">*</span>}
+        </label>
+        {hint && <span className="text-xs text-slate-400">{hint}</span>}
+      </div>
+
       <div className="relative">
-        {icon && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{icon}</span>
-        )}
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+          <MapPin size={16} className="text-emerald-400" />
+        </div>
         <input
           ref={inputRef}
           type="text"
+          value={inputValue}
+          onChange={handleInputChange}
           placeholder={placeholder}
-          defaultValue={value.description}
-          onChange={(e) => {
-            if (mapsFailed) {
-              onChange({ description: e.target.value, placeId: undefined });
-            }
-          }}
-          className={`w-full rounded-lg border border-gray-200 bg-white py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100 ${
-            icon ? "pl-9 pr-3" : "px-3"
+          className={`w-full rounded-xl border py-3 pl-10 pr-10 text-sm text-white placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
+            error
+              ? "border-rose-400 bg-rose-950/30 focus:ring-rose-500/40"
+              : "border-blue-500/30 bg-slate-900/80 focus:border-emerald-400 focus:ring-emerald-400/30"
           }`}
         />
+        {inputValue && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-white"
+            aria-label="Clear location"
+          >
+            <X size={15} />
+          </button>
+        )}
       </div>
-      {mapsFailed && (
-        <p className="mt-1 text-xs text-amber-600">
-          Map search unavailable — type the location name manually.
-        </p>
-      )}
+
+      {error && <p className="mt-1 text-xs font-medium text-rose-400">{error}</p>}
     </div>
   );
 }

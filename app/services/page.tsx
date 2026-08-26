@@ -1,61 +1,65 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Container from "@/components/shared/Container";
 import SectionHeading from "@/components/shared/SectionHeading";
 import FadeIn from "@/components/shared/FadeIn";
 import { SERVICES } from "@/data/services";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "Staff transportation, school transportation, picnics, weddings & events, pilgrimage trips, and inter & intra-city travel — Guru Translines' full range of services.",
-};
-
 export default function ServicesPage() {
   return (
-    <div className="py-16 sm:py-24">
-      <Container>
+    <div className="relative py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
+      {/* Aurora glow blobs */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute right-1/4 top-10 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-emerald)" }} />
+        <div className="absolute left-1/4 bottom-10 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-cyan)" }} />
+      </div>
+
+      <Container className="relative">
         <FadeIn>
           <SectionHeading
-            eyebrow="Services"
-            title="Transportation for every occasion"
-            description="Whatever the occasion, we plan the vehicle, driver and route around it."
+            eyebrow="Tailored Mobility"
+            title="Comprehensive Transport Services"
+            description="From daily enterprise staff commuting to multi-day wedding parties and pilgrimages across India."
           />
         </FadeIn>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((service, i) => {
-            const Icon = service.icon;
+          {SERVICES.map((s, i) => {
+            const Icon = s.icon;
             return (
-              <FadeIn key={service.slug} delay={i * 0.05}>
-                <Link
-                  href={`/services/${service.slug}`}
-                  className="group block overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-gray-100"
+              <FadeIn key={s.slug} delay={i * 0.08}>
+                <div
+                  className="flex h-full flex-col justify-between rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: "var(--glass-bg)",
+                    border: "1px solid var(--glass-border)",
+                    backdropFilter: "blur(16px)",
+                  }}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                    <Image
-                      src={service.image}
-                      alt={service.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute bottom-3 left-4 flex h-9 w-9 items-center justify-center rounded-lg bg-white/90 text-indigo-600">
-                      <Icon size={18} />
+                  <div>
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-xl"
+                      style={{ background: "rgba(16, 185, 129, 0.15)", border: "1px solid rgba(16, 185, 129, 0.35)", color: "#34d399" }}
+                    >
+                      <Icon size={22} />
                     </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-base font-semibold text-gray-900">{service.name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                      {service.shortDescription}
+                    <h3 className="mt-5 text-xl font-bold text-white">{s.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                      {s.shortDescription}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600">
-                      Learn more <ArrowRight size={14} />
-                    </span>
                   </div>
-                </Link>
+
+                  <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
+                    <Link
+                      href={`/services/${s.slug}`}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 transition-colors hover:text-emerald-300"
+                    >
+                      Explore Service Details <ArrowRight size={15} />
+                    </Link>
+                  </div>
+                </div>
               </FadeIn>
             );
           })}

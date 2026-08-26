@@ -4,41 +4,44 @@ import { COMPANY } from "@/lib/company";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `Privacy policy for ${COMPANY.name}.`,
+  description: "Privacy policy and terms of service for Guru Translines.",
 };
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="py-16 sm:py-24">
-      <Container className="max-w-2xl">
-        <h1 className="text-3xl font-semibold text-gray-900">Privacy Policy</h1>
-        <p className="mt-3 text-sm text-gray-500">Last updated: June 2026</p>
+    <div className="py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
+      <Container className="max-w-3xl">
+        <h1 className="text-3xl font-black text-white sm:text-4xl">Privacy Policy</h1>
+        <p className="mt-2 text-sm" style={{ color: "var(--accent-emerald-light)" }}>
+          Last updated: {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
+        </p>
 
-        <div className="prose mt-10 max-w-none text-sm leading-relaxed text-gray-700">
+        <div className="mt-8 space-y-6 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
           <p>
-            {COMPANY.legalName} (&quot;we&quot;, &quot;us&quot;) collects the information you
-            submit through our booking, contact and fare-estimator forms — including your name,
-            phone number, email address, and trip details — solely to respond to your inquiry,
-            prepare a quote, and coordinate your booking.
+            {COMPANY.legalName} (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) respects your privacy and is committed to protecting any personal information you share with us through our website.
           </p>
-          <h2 className="mt-6 text-base font-semibold text-gray-900">How we use your information</h2>
-          <p className="mt-2">
-            Information submitted through this website is used only to communicate with you about
-            your trip — over phone, WhatsApp or email — and is not sold or shared with third
-            parties for marketing purposes.
+
+          <h2 className="text-lg font-bold text-white pt-4">1. Information We Collect</h2>
+          <p>
+            When you use our Fare Estimator or contact forms, we collect details such as your name, phone number, email address, pickup and drop locations, and travel dates to prepare quotations.
           </p>
-          <h2 className="mt-6 text-base font-semibold text-gray-900">WhatsApp communication</h2>
-          <p className="mt-2">
-            Where you choose to contact us via WhatsApp, your message and trip details are sent
-            directly through WhatsApp&apos;s platform under WhatsApp&apos;s own privacy terms.
+
+          <h2 className="text-lg font-bold text-white pt-4">2. How We Use Information</h2>
+          <p>
+            Information collected is strictly used to fulfill trip requests, provide customer support, dispatch verified drivers, and manage invoices. We do not sell or rent personal information to third parties.
           </p>
-          <h2 className="mt-6 text-base font-semibold text-gray-900">Contact us</h2>
-          <p className="mt-2">
-            For questions about this policy, contact us at{" "}
-            <a href={`mailto:${COMPANY.contact.salesEmail}`} className="text-indigo-600">
+
+          <h2 className="text-lg font-bold text-white pt-4">3. WhatsApp Communication</h2>
+          <p>
+            By initiating contact via WhatsApp or submitting booking requests, you agree to receive trip confirmations, quotations, and driver allocation notices via WhatsApp and SMS.
+          </p>
+
+          <h2 className="text-lg font-bold text-white pt-4">4. Contact Us</h2>
+          <p>
+            If you have questions regarding our privacy practices, please contact us at{" "}
+            <a href={`mailto:${COMPANY.contact.salesEmail}`} className="text-emerald-400 underline">
               {COMPANY.contact.salesEmail}
-            </a>
-            .
+            </a>.
           </p>
         </div>
       </Container>

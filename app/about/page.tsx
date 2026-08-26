@@ -1,84 +1,110 @@
-import type { Metadata } from "next";
-import Image from "next/image";
-import { ShieldCheck, Target, Compass } from "lucide-react";
+"use client";
+
+import { Shield, Users, Clock, Award, CheckCircle } from "lucide-react";
 import Container from "@/components/shared/Container";
+import SectionHeading from "@/components/shared/SectionHeading";
 import FadeIn from "@/components/shared/FadeIn";
 import { COMPANY, yearsInBusiness } from "@/lib/company";
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description: `Guru Translines has provided local and outstation transportation across Telangana since ${COMPANY.foundedYear}. Learn our story, vision and mission.`,
-};
-
 export default function AboutPage() {
   return (
-    <div className="py-16 sm:py-24">
-      <Container className="max-w-3xl">
-        <FadeIn>
-          <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">
-            About us
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold text-gray-900 sm:text-4xl">
-            {yearsInBusiness()} years on the road, one trip at a time
-          </h1>
-        </FadeIn>
+    <div className="relative py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
+      {/* Aurora glow blobs */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute left-1/3 top-20 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-emerald)" }} />
+        <div className="absolute right-1/4 bottom-20 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-gold)" }} />
+      </div>
 
-        <FadeIn delay={0.1} className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl bg-gray-100">
-          <Image
-            src="/images/fleet/fleet-back.jpg"
-            alt="Guru Translines fleet"
-            fill
-            className="object-cover"
+      <Container className="relative">
+        <FadeIn>
+          <SectionHeading
+            eyebrow="Our Heritage"
+            title="Four Decades of Trust on Telangana Roads"
+            description={`Founded in ${COMPANY.foundedYear}, Guru Translines has evolved into one of Hyderabad's most trusted corporate and private transport partners.`}
           />
         </FadeIn>
 
-        <FadeIn delay={0.15} className="prose mt-10 max-w-none text-gray-700">
-          <h2 className="text-xl font-semibold text-gray-900">Our story</h2>
-          <p className="mt-3 leading-relaxed">
-            Guru Translines began in {COMPANY.foundedYear} as Guru Travels, a small transportation
-            operator serving Secunderabad and the wider Hyderabad region. As demand grew from
-            individual customers, schools and corporate clients alike, the company was
-            restructured in {COMPANY.renamedYear} into {COMPANY.legalName} — a formal,
-            professionally managed fleet operator built to serve that scale.
-          </p>
-          <p className="mt-4 leading-relaxed">
-            Today, the fleet has grown to {COMPANY.fleetSize} vehicles ranging from Tempo
-            Travellers to full-size DLX coaches, serving staff transportation contracts, school
-            routes, weddings, pilgrimage trips and inter-city travel across Telangana.
-          </p>
+        {/* Milestone stats banner */}
+        <FadeIn delay={0.1} className="mt-14">
+          <div
+            className="grid gap-6 rounded-3xl p-8 sm:grid-cols-3 sm:p-10"
+            style={{
+              background: "linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(59, 130, 246, 0.12))",
+              border: "1px solid rgba(52, 211, 153, 0.3)",
+              boxShadow: "0 10px 40px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            <div className="text-center sm:text-left">
+              <p className="text-4xl font-black text-emerald-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
+                {yearsInBusiness()}+
+              </p>
+              <p className="mt-2 text-sm font-semibold text-white">Years Operating</p>
+              <p className="text-xs text-slate-400 mt-0.5">Continuous safe passenger journeys</p>
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-4xl font-black text-amber-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
+                {COMPANY.fleetSize}+
+              </p>
+              <p className="mt-2 text-sm font-semibold text-white">Modern Vehicles</p>
+              <p className="text-xs text-slate-400 mt-0.5">Buses, tempo travellers, and sedans</p>
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-4xl font-black text-cyan-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
+                50+
+              </p>
+              <p className="mt-2 text-sm font-semibold text-white">Enterprise Clients</p>
+              <p className="text-xs text-slate-400 mt-0.5">Pharma, tech, and institutions</p>
+            </div>
+          </div>
         </FadeIn>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          <FadeIn delay={0.2}>
-            <div className="rounded-2xl border border-gray-100 bg-white p-6">
-              <Compass className="text-indigo-600" size={22} />
-              <h3 className="mt-4 text-base font-semibold text-gray-900">Our vision</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                To be Telangana&apos;s most trusted name in group transportation — known as much
-                for reliability as for fleet size.
-              </p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.25}>
-            <div className="rounded-2xl border border-gray-100 bg-white p-6">
-              <Target className="text-indigo-600" size={22} />
-              <h3 className="mt-4 text-base font-semibold text-gray-900">Our mission</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                To get every passenger to their destination safely, on time, and at a fair,
-                transparent price — every single trip.
-              </p>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.3}>
-            <div className="rounded-2xl border border-gray-100 bg-white p-6">
-              <ShieldCheck className="text-indigo-600" size={22} />
-              <h3 className="mt-4 text-base font-semibold text-gray-900">Our standard</h3>
-              <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                GPS-tracked vehicles, vetted and trained drivers, and staff covered under ESI and
-                PF — safety isn&apos;t an add-on, it&apos;s the baseline.
-              </p>
-            </div>
-          </FadeIn>
+        {/* Vision & Values Pillars */}
+        <div className="mt-16 grid gap-6 sm:grid-cols-3">
+          {[
+            {
+              icon: Shield,
+              title: "Uncompromising Safety",
+              desc: "100% GPS monitored, verified professional chauffeurs, speed-governed engines, and regular safety audits.",
+              color: "#34d399",
+            },
+            {
+              icon: Clock,
+              title: "Punctuality & Reliability",
+              desc: "Over 99.4% on-time departure records for employee shifts and group outstation excursions.",
+              color: "#fbbf24",
+            },
+            {
+              icon: Award,
+              title: "Transparent Standards",
+              desc: "Clear upfront billing, no hidden fuel spikes, clean AC interiors, and 24/7 dedicated dispatch desks.",
+              color: "#60a5fa",
+            },
+          ].map((pillar, i) => {
+            const Icon = pillar.icon;
+            return (
+              <FadeIn key={pillar.title} delay={i * 0.1}>
+                <div
+                  className="rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: "var(--glass-bg)",
+                    border: "1px solid var(--glass-border)",
+                    backdropFilter: "blur(16px)",
+                  }}
+                >
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-xl"
+                    style={{ background: `${pillar.color}20`, border: `1px solid ${pillar.color}40`, color: pillar.color }}
+                  >
+                    <Icon size={22} />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-white">{pillar.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    {pillar.desc}
+                  </p>
+                </div>
+              </FadeIn>
+            );
+          })}
         </div>
       </Container>
     </div>

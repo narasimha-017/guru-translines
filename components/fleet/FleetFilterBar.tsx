@@ -6,7 +6,7 @@ const FILTERS: { id: FleetFilter; label: string }[] = [
   { id: "all", label: "All vehicles" },
   { id: "small", label: "Up to 17 seats" },
   { id: "medium", label: "22–27 seats" },
-  { id: "large", label: "40 seats" },
+  { id: "large", label: "40+ seats" },
 ];
 
 export default function FleetFilterBar({
@@ -17,20 +17,29 @@ export default function FleetFilterBar({
   onChange: (filter: FleetFilter) => void;
 }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
-      {FILTERS.map((f) => (
-        <button
-          key={f.id}
-          onClick={() => onChange(f.id)}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-            active === f.id
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          {f.label}
-        </button>
-      ))}
+    <div className="flex flex-wrap justify-center gap-2.5">
+      {FILTERS.map((f) => {
+        const isActive = active === f.id;
+        return (
+          <button
+            key={f.id}
+            onClick={() => onChange(f.id)}
+            className="rounded-full px-5 py-2 text-sm font-semibold transition-all duration-200"
+            style={{
+              background: isActive
+                ? "linear-gradient(135deg, #10b981, #059669)"
+                : "rgba(15, 36, 71, 0.6)",
+              border: isActive
+                ? "1px solid rgba(52, 211, 153, 0.6)"
+                : "1px solid rgba(255, 255, 255, 0.12)",
+              color: isActive ? "#ffffff" : "var(--text-secondary)",
+              boxShadow: isActive ? "0 0 20px rgba(16, 185, 129, 0.4)" : "none",
+            }}
+          >
+            {f.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

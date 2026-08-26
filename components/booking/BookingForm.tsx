@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 import { FLEET } from "@/data/fleet";
 import { bookingSchema, BookingInput } from "@/lib/validations";
 import { buildWhatsAppLink, buildWhatsAppQuoteMessage } from "@/lib/company";
@@ -64,27 +64,46 @@ export default function BookingForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-cyan-50 text-teal-600">
-          <MessageCircle size={22} />
+      <div
+        className="rounded-2xl p-8 text-center"
+        style={{
+          background: "var(--glass-bg)",
+          border: "1px solid rgba(16, 185, 129, 0.4)",
+          backdropFilter: "blur(20px)",
+          boxShadow: "0 0 40px rgba(16, 185, 129, 0.2)",
+        }}
+      >
+        <div
+          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full"
+          style={{
+            background: "rgba(16, 185, 129, 0.2)",
+            border: "1px solid rgba(16, 185, 129, 0.4)",
+            color: "#34d399",
+          }}
+        >
+          <MessageCircle size={24} />
         </div>
-        <h3 className="mt-4 text-lg font-semibold text-gray-900">Almost there</h3>
-        <p className="mt-2 text-sm text-gray-600">
-          We&apos;ve opened WhatsApp with your booking details filled in — just hit send and our
-          team will confirm shortly.
+        <h3 className="mt-4 text-xl font-bold text-white">Booking Details Ready</h3>
+        <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+          WhatsApp has opened with your trip reservation details — just hit send and our dispatch desk will confirm availability and vehicle assignment.
         </p>
         <button
           onClick={() => setSubmitted(false)}
-          className="mt-5 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+          className="mt-6 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all"
+          style={{
+            background: "rgba(255, 255, 255, 0.08)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            color: "var(--accent-emerald-light)",
+          }}
         >
-          Edit details
+          Edit Details
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-gray-100 bg-white p-6 sm:p-8">
+    <form onSubmit={handleSubmit}>
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Full name" error={errors.name}>
           <input
@@ -119,8 +138,8 @@ export default function BookingForm() {
             onChange={(e) => update("tripType", e.target.value as "local" | "outstation")}
             className={inputClass(false)}
           >
-            <option value="local">Local</option>
-            <option value="outstation">Outstation</option>
+            <option value="local" className="bg-slate-900 text-white">Local (City / Rental)</option>
+            <option value="outstation" className="bg-slate-900 text-white">Outstation (Inter-city)</option>
           </select>
         </Field>
 
@@ -138,7 +157,7 @@ export default function BookingForm() {
             value={form.drop}
             onChange={(e) => update("drop", e.target.value)}
             className={inputClass(!!errors.drop)}
-            placeholder="e.g. Warangal"
+            placeholder="e.g. Warangal / Airport"
           />
         </Field>
 
@@ -157,9 +176,9 @@ export default function BookingForm() {
             onChange={(e) => update("vehicle", e.target.value)}
             className={inputClass(!!errors.vehicle)}
           >
-            <option value="">Select a vehicle</option>
+            <option value="" className="bg-slate-900 text-white">Select a vehicle</option>
             {FLEET.map((v) => (
-              <option key={v.id} value={v.id}>
+              <option key={v.id} value={v.id} className="bg-slate-900 text-white">
                 {v.name} ({v.capacity} seater)
               </option>
             ))}
@@ -178,30 +197,36 @@ export default function BookingForm() {
       </div>
 
       <div className="mt-5">
-        <Field label="Message (optional)" error={undefined}>
+        <Field label="Special Requirements or Message (Optional)" error={undefined}>
           <textarea
             value={form.message}
             onChange={(e) => update("message", e.target.value)}
             rows={3}
             className={inputClass(false)}
-            placeholder="Any other details about your trip"
+            placeholder="Tell us about baggage, stops, flight timings, or route preferences..."
           />
         </Field>
       </div>
 
       <button
         type="submit"
-        className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-3.5 text-sm font-medium text-white transition-colors hover:bg-indigo-500 sm:w-auto"
+        className="mt-7 inline-flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-4 text-sm font-bold text-white transition-all sm:w-auto"
+        style={{
+          background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+          boxShadow: "0 0 25px rgba(16, 185, 129, 0.4)",
+        }}
       >
-        <MessageCircle size={16} /> Send booking request via WhatsApp
+        <MessageCircle size={17} /> Send Booking Request via WhatsApp
       </button>
     </form>
   );
 }
 
 function inputClass(hasError: boolean) {
-  return `w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-100 ${
-    hasError ? "border-red-300 focus:border-red-400" : "border-gray-200 focus:border-indigo-500"
+  return `w-full rounded-xl border px-4 py-3 text-sm text-white placeholder:text-slate-400 transition-all focus:outline-none focus:ring-2 ${
+    hasError
+      ? "border-rose-400 bg-rose-950/30 focus:ring-rose-500/40"
+      : "border-blue-500/30 bg-slate-900/80 focus:border-emerald-400 focus:ring-emerald-400/30"
   }`;
 }
 
@@ -216,9 +241,9 @@ function Field({
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-gray-700">{label}</label>
+      <label className="mb-2 block text-sm font-semibold text-white">{label}</label>
       {children}
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-xs font-medium text-rose-400">{error}</p>}
     </div>
   );
 }
