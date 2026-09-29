@@ -14,21 +14,15 @@ export default function SectionHeading({
   return (
     <div className={`max-w-2xl ${align === "center" ? "mx-auto text-center" : "text-left"}`}>
       {eyebrow && (
-        <div className="mb-3 inline-flex items-center gap-2 rounded-full px-3.5 py-1 text-xs font-semibold uppercase tracking-wider"
-          style={{
-            background: "rgba(16, 185, 129, 0.12)",
-            border: "1px solid rgba(16, 185, 129, 0.3)",
-            color: "var(--accent-emerald-light)",
-          }}>
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-blue-600">
           {eyebrow}
-        </div>
+        </p>
       )}
-      <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl" style={{ letterSpacing: "-0.03em" }}>
+      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-base leading-relaxed sm:text-lg" style={{ color: "var(--text-secondary)" }}>
+        <p className="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">
           {description}
         </p>
       )}

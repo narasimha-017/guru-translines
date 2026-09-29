@@ -1,111 +1,108 @@
-"use client";
-
-import { Shield, Users, Clock, Award, CheckCircle } from "lucide-react";
+import type { Metadata } from "next";
+import Image from "next/image";
+import { ShieldCheck, Target, Compass, MapPin, Users, Phone } from "lucide-react";
 import Container from "@/components/shared/Container";
-import SectionHeading from "@/components/shared/SectionHeading";
 import FadeIn from "@/components/shared/FadeIn";
-import { COMPANY, yearsInBusiness } from "@/lib/company";
+import { COMPANY, yearsInBusiness, buildTelLink } from "@/lib/company";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: `Guru Translines has provided premium transportation solutions across India since ${COMPANY.foundedYear}. Learn our heritage, vision, and mission.`,
+};
 
 export default function AboutPage() {
   return (
-    <div className="relative py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
-      {/* Aurora glow blobs */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute left-1/3 top-20 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-emerald)" }} />
-        <div className="absolute right-1/4 bottom-20 h-80 w-80 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-gold)" }} />
-      </div>
-
-      <Container className="relative">
+    <div className="bg-white py-16 sm:py-24">
+      <Container className="max-w-4xl">
         <FadeIn>
-          <SectionHeading
-            eyebrow="Our Heritage"
-            title="Four Decades of Trust on Telangana Roads"
-            description={`Founded in ${COMPANY.foundedYear}, Guru Translines has evolved into one of Hyderabad's most trusted corporate and private transport partners.`}
+          <p className="text-xs font-bold uppercase tracking-wider text-blue-600">
+            About Guru Translines
+          </p>
+          <h1 className="mt-3 text-3xl font-extrabold text-gray-900 sm:text-4xl lg:text-5xl">
+            {yearsInBusiness()}+ Years on the Road, Delivering Excellence Across India
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">
+            A trusted mobility partner for leading enterprises, institutions, event planners, and travelers nationwide.
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.1} className="relative mt-8 aspect-[16/9] overflow-hidden rounded-3xl bg-gray-100 shadow-md">
+          <Image
+            src="/images/fleet/fleet-back.jpg"
+            alt="Guru Translines transportation operations"
+            fill
+            className="object-cover"
           />
         </FadeIn>
 
-        {/* Milestone stats banner */}
-        <FadeIn delay={0.1} className="mt-14">
-          <div
-            className="grid gap-6 rounded-3xl p-8 sm:grid-cols-3 sm:p-10"
-            style={{
-              background: "linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(59, 130, 246, 0.12))",
-              border: "1px solid rgba(52, 211, 153, 0.3)",
-              boxShadow: "0 10px 40px rgba(0, 0, 0, 0.4)",
-            }}
-          >
-            <div className="text-center sm:text-left">
-              <p className="text-4xl font-black text-emerald-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
-                {yearsInBusiness()}+
-              </p>
-              <p className="mt-2 text-sm font-semibold text-white">Years Operating</p>
-              <p className="text-xs text-slate-400 mt-0.5">Continuous safe passenger journeys</p>
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="text-4xl font-black text-amber-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
-                {COMPANY.fleetSize}+
-              </p>
-              <p className="mt-2 text-sm font-semibold text-white">Modern Vehicles</p>
-              <p className="text-xs text-slate-400 mt-0.5">Buses, tempo travellers, and sedans</p>
-            </div>
-            <div className="text-center sm:text-left">
-              <p className="text-4xl font-black text-cyan-400 sm:text-5xl" style={{ fontFamily: "var(--font-mono)" }}>
-                50+
-              </p>
-              <p className="mt-2 text-sm font-semibold text-white">Enterprise Clients</p>
-              <p className="text-xs text-slate-400 mt-0.5">Pharma, tech, and institutions</p>
-            </div>
-          </div>
+        <FadeIn delay={0.15} className="mt-12 space-y-6 text-gray-700 leading-relaxed text-base">
+          <h2 className="text-2xl font-bold text-gray-900">Our Heritage & Story</h2>
+          <p>
+            Guru Translines began in {COMPANY.foundedYear} as Guru Travels, a pioneering transportation
+            operator in Secunderabad. Driven by a commitment to reliability, passenger safety, and exceptional
+            customer service, the organization was formally restructured in {COMPANY.renamedYear} into {COMPANY.legalName}.
+          </p>
+          <p>
+            Over the past four decades, we have evolved into a comprehensive transportation management company
+            serving enterprise employee commutes, school and college transport, VIP airport transfers, large-scale
+            wedding logistics, and customized group charters across India.
+          </p>
         </FadeIn>
 
-        {/* Vision & Values Pillars */}
-        <div className="mt-16 grid gap-6 sm:grid-cols-3">
-          {[
-            {
-              icon: Shield,
-              title: "Uncompromising Safety",
-              desc: "100% GPS monitored, verified professional chauffeurs, speed-governed engines, and regular safety audits.",
-              color: "#34d399",
-            },
-            {
-              icon: Clock,
-              title: "Punctuality & Reliability",
-              desc: "Over 99.4% on-time departure records for employee shifts and group outstation excursions.",
-              color: "#fbbf24",
-            },
-            {
-              icon: Award,
-              title: "Transparent Standards",
-              desc: "Clear upfront billing, no hidden fuel spikes, clean AC interiors, and 24/7 dedicated dispatch desks.",
-              color: "#60a5fa",
-            },
-          ].map((pillar, i) => {
-            const Icon = pillar.icon;
-            return (
-              <FadeIn key={pillar.title} delay={i * 0.1}>
-                <div
-                  className="rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: "var(--glass-bg)",
-                    border: "1px solid var(--glass-border)",
-                    backdropFilter: "blur(16px)",
-                  }}
-                >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-xl"
-                    style={{ background: `${pillar.color}20`, border: `1px solid ${pillar.color}40`, color: pillar.color }}
-                  >
-                    <Icon size={22} />
-                  </div>
-                  <h3 className="mt-5 text-lg font-bold text-white">{pillar.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                    {pillar.desc}
-                  </p>
-                </div>
-              </FadeIn>
-            );
-          })}
+        {/* Pillars Grid */}
+        <div className="mt-14 grid gap-6 sm:grid-cols-3">
+          <FadeIn delay={0.2}>
+            <div className="h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <Compass size={22} />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-900">Our Vision</h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                To be India&apos;s most dependable, safety-driven group and corporate transportation partner.
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.25}>
+            <div className="h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <Target size={22} />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-900">Our Mission</h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                To ensure every passenger reaches their destination safely, punctually, and comfortably on every trip.
+              </p>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+            <div className="h-full rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <ShieldCheck size={22} />
+              </div>
+              <h3 className="mt-4 text-lg font-bold text-gray-900">Our Standards</h3>
+              <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                100% GPS live tracking, verified drivers, strict safety protocols, and statutory compliance.
+              </p>
+            </div>
+          </FadeIn>
         </div>
+
+        {/* Highlights Bar */}
+        <FadeIn delay={0.35} className="mt-12 rounded-2xl bg-blue-50 border border-blue-100 p-8 text-center sm:p-10">
+          <h3 className="text-xl font-bold text-gray-900 sm:text-2xl">Need Reliable Transportation?</h3>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-gray-600">
+            Our 24/7 operations desk is ready to help you plan corporate commutes, group travel, or outstation tours.
+          </p>
+          <div className="mt-6 flex justify-center gap-4">
+            <a
+              href={buildTelLink()}
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-blue-700"
+            >
+              <Phone size={16} /> Call {COMPANY.contact.primaryPhoneDisplay}
+            </a>
+          </div>
+        </FadeIn>
       </Container>
     </div>
   );

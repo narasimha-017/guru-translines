@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFloatButton from "@/components/layout/WhatsAppFloatButton";
+import UtmTracker from "@/components/shared/UtmTracker";
 import { COMPANY } from "@/lib/company";
 
 const inter = Inter({
@@ -19,37 +21,30 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-
 const siteUrl = "https://www.gurutranslines.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${COMPANY.name} | Local & Outstation Transportation in Telangana`,
+    default: `${COMPANY.name} | Premium Transportation Services Across India`,
     template: `%s | ${COMPANY.name}`,
   },
   description:
-    "Guru Translines provides premium local and outstation transportation across Telangana — staff transportation, school transportation, corporate travel, weddings and pilgrimage trips. Get an instant fare estimate.",
+    "Guru Translines provides premium travel solutions across India — corporate transportation, staff commuting, school transportation, airport transfers, weddings, and outstation trips.",
   keywords: [
     "Guru Translines",
-    "tempo traveller rental Hyderabad",
-    "minibus rental Hyderabad",
-    "outstation cab Telangana",
+    "corporate transportation India",
     "staff transportation Hyderabad",
-    "school transportation Hyderabad",
+    "school bus service Telangana",
+    "airport transfers Hyderabad",
+    "outstation group travel India",
+    "wedding transport logistics",
     "bus rental Secunderabad",
   ],
   openGraph: {
-    title: `${COMPANY.name} | Local & Outstation Transportation in Telangana`,
+    title: `${COMPANY.name} | Premium Transportation Services Across India`,
     description:
-      "Premium local and outstation transportation across Telangana since 1983. Get an instant fare estimate.",
+      "Premium travel solutions across India since 1983. Trusted by leading enterprises, schools, and families.",
     url: siteUrl,
     siteName: COMPANY.name,
     locale: "en_IN",
@@ -57,8 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${COMPANY.name} | Local & Outstation Transportation in Telangana`,
-    description: "Premium local and outstation transportation across Telangana since 1983.",
+    title: `${COMPANY.name} | Premium Transportation Services Across India`,
+    description: "Premium travel solutions across India since 1983.",
   },
   robots: {
     index: true,
@@ -68,8 +63,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable} ${jetbrains.variable}`}>
-      <body className="antialiased">
+    <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
+      <body className="antialiased min-h-screen flex flex-col bg-white text-gray-900">
+        <Suspense fallback={null}>
+          <UtmTracker />
+        </Suspense>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -77,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "MovingCompany",
               name: COMPANY.legalName,
-              image: `${siteUrl}/images/fleet/hero-fleet-1.jpg`,
+              image: `${siteUrl}/images/brand/logo.svg`,
               telephone: COMPANY.contact.primaryPhone,
               email: COMPANY.contact.salesEmail,
               address: {
@@ -88,14 +86,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 postalCode: COMPANY.address.pincode,
                 addressCountry: "IN",
               },
-              areaServed: "Telangana",
+              areaServed: "India",
               foundingDate: String(COMPANY.foundedYear),
               url: siteUrl,
             }),
           }}
         />
         <Header />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppFloatButton />
       </body>

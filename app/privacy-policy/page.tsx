@@ -4,44 +4,44 @@ import { COMPANY } from "@/lib/company";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy and terms of service for Guru Translines.",
+  description: `Privacy policy for ${COMPANY.name}.`,
 };
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
+    <div className="bg-white py-16 sm:py-24">
       <Container className="max-w-3xl">
-        <h1 className="text-3xl font-black text-white sm:text-4xl">Privacy Policy</h1>
-        <p className="mt-2 text-sm" style={{ color: "var(--accent-emerald-light)" }}>
-          Last updated: {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
-        </p>
+        <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Privacy Policy</h1>
+        <p className="mt-2 text-sm text-gray-500">Last updated: June 2026</p>
 
-        <div className="mt-8 space-y-6 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+        <div className="mt-10 space-y-6 text-sm leading-relaxed text-gray-700">
           <p>
-            {COMPANY.legalName} (&ldquo;we&rdquo;, &ldquo;our&rdquo;, or &ldquo;us&rdquo;) respects your privacy and is committed to protecting any personal information you share with us through our website.
+            {COMPANY.legalName} (&quot;we&quot;, &quot;us&quot;) collects the information you
+            submit through our booking, enquiry, and contact forms — including your name,
+            phone number, email address, and travel details — solely to respond to your inquiry,
+            prepare quotes, and coordinate your trip.
           </p>
 
-          <h2 className="text-lg font-bold text-white pt-4">1. Information We Collect</h2>
+          <h2 className="text-lg font-bold text-gray-900">How We Use Your Information</h2>
           <p>
-            When you use our Fare Estimator or contact forms, we collect details such as your name, phone number, email address, pickup and drop locations, and travel dates to prepare quotations.
+            Information submitted through this website is used solely to communicate with you about
+            your travel requirements — over phone, WhatsApp, or email. We never sell, rent, or share
+            your contact details with third-party marketers.
           </p>
 
-          <h2 className="text-lg font-bold text-white pt-4">2. How We Use Information</h2>
+          <h2 className="text-lg font-bold text-gray-900">WhatsApp Communication</h2>
           <p>
-            Information collected is strictly used to fulfill trip requests, provide customer support, dispatch verified drivers, and manage invoices. We do not sell or rent personal information to third parties.
+            When you choose to contact us via WhatsApp, your message and trip details are transmitted
+            directly through WhatsApp&apos;s platform under WhatsApp&apos;s privacy terms and end-to-end encryption.
           </p>
 
-          <h2 className="text-lg font-bold text-white pt-4">3. WhatsApp Communication</h2>
+          <h2 className="text-lg font-bold text-gray-900">Contact Us</h2>
           <p>
-            By initiating contact via WhatsApp or submitting booking requests, you agree to receive trip confirmations, quotations, and driver allocation notices via WhatsApp and SMS.
-          </p>
-
-          <h2 className="text-lg font-bold text-white pt-4">4. Contact Us</h2>
-          <p>
-            If you have questions regarding our privacy practices, please contact us at{" "}
-            <a href={`mailto:${COMPANY.contact.salesEmail}`} className="text-emerald-400 underline">
+            For any questions or data requests regarding this privacy policy, please contact us at{" "}
+            <a href={`mailto:${COMPANY.contact.salesEmail}`} className="font-semibold text-blue-600 hover:underline">
               {COMPANY.contact.salesEmail}
-            </a>.
+            </a>
+            .
           </p>
         </div>
       </Container>

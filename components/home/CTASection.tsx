@@ -1,49 +1,47 @@
-"use client";
-
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { Phone, MessageCircle, ArrowRight } from "lucide-react";
 import Container from "@/components/shared/Container";
+import FadeIn from "@/components/shared/FadeIn";
+import { COMPANY, buildTelLink } from "@/lib/company";
 
 export default function CTASection() {
   return (
-    <section className="relative py-20 sm:py-28 bg-transparent">
+    <section className="py-20 sm:py-28 bg-gradient-to-b from-white to-blue-50/50">
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55 }}
-          className="relative overflow-hidden rounded-3xl px-8 py-16 text-center sm:px-16 sm:py-20"
-          style={{
-            background: "linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(99,102,241,0.12) 50%, rgba(6,182,212,0.1) 100%)",
-            border: "1px solid rgba(59,130,246,0.25)",
-            boxShadow: "0 0 60px rgba(59,130,246,0.12), inset 0 1px 0 rgba(255,255,255,0.08)",
-          }}
-        >
-          {/* Background glow orbs */}
-          <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="absolute left-1/4 top-1/2 -translate-y-1/2 h-48 w-48 rounded-full blur-3xl opacity-20" style={{ background: "var(--accent-blue)" }} />
-            <div className="absolute right-1/4 top-1/2 -translate-y-1/2 h-32 w-32 rounded-full blur-3xl opacity-20" style={{ background: "var(--accent-cyan)" }} />
-          </div>
-          <div className="relative">
-            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--accent-cyan)" }}>Instant pricing</span>
-            <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl lg:text-5xl" style={{ letterSpacing: "-0.03em" }}>
-              Know your fare before you call
+        <FadeIn>
+          <div className="overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 px-8 py-14 text-center text-white shadow-xl shadow-blue-600/15 sm:px-16 sm:py-20">
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Ready to Plan Your Next Journey Across India?
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed sm:text-base" style={{ color: "var(--text-secondary)" }}>
-              Use our smart fare estimator to get an instant price for your trip — no waiting on a callback.
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-blue-100 sm:text-lg">
+              Contact our 24/7 operations desk for tailored corporate commute plans, event guest logistics,
+              airport transfers, or outstation tours.
             </p>
-            <motion.a
-              href="/estimator"
-              className="mt-8 inline-flex items-center gap-2 rounded-xl px-8 py-4 text-sm font-semibold text-white"
-              style={{ background: "linear-gradient(135deg, var(--accent-blue), #1d4ed8)", boxShadow: "0 0 24px rgba(59,130,246,0.4)" }}
-              whileHover={{ scale: 1.04, boxShadow: "0 0 40px rgba(59,130,246,0.65)" }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Get instant quote <ArrowRight size={16} />
-            </motion.a>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <Link
+                href="/booking"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-7 py-3.5 text-sm font-bold text-blue-700 shadow-md transition-all hover:bg-blue-50 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Book Your Trip <ArrowRight size={16} />
+              </Link>
+
+              <Link
+                href="/booking"
+                className="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-7 py-3.5 text-sm font-bold text-white shadow-md transition-all hover:bg-emerald-600 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <MessageCircle size={16} /> WhatsApp Enquiry
+              </Link>
+
+              <a
+                href={buildTelLink()}
+                className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-xs transition-all hover:bg-white/20"
+              >
+                <Phone size={16} /> Call {COMPANY.contact.primaryPhoneDisplay}
+              </a>
+            </div>
           </div>
-        </motion.div>
+        </FadeIn>
       </Container>
     </section>
   );

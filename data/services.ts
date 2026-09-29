@@ -1,10 +1,12 @@
 import {
   Briefcase,
   GraduationCap,
-  TreePalm,
+  Plane,
+  MapPin,
+  Compass,
   PartyPopper,
   Landmark,
-  Map,
+  TreePalm,
   type LucideIcon,
 } from "lucide-react";
 
@@ -19,67 +21,99 @@ export interface Service {
 
 export const SERVICES: Service[] = [
   {
+    slug: "corporate-transportation",
+    name: "Corporate Transportation",
+    shortDescription:
+      "Reliable executive & employee commute solutions tailored to enterprise shifts.",
+    description:
+      "Our corporate transportation services provide dedicated travel management for enterprises, tech parks, and businesses. With strict SLA adherence, real-time GPS tracking, and vetted professional drivers, we ensure your team travels safely and on schedule every single day.",
+    icon: Briefcase,
+    image: "/images/fleet/12tt-tempo-traveller.jpg",
+  },
+  {
     slug: "staff-transportation",
     name: "Staff Transportation",
     shortDescription:
-      "Daily employee pick-up and drop, designed to save your company time and money.",
+      "Daily employee pick-up and drop designed for safety, punctuality, and efficiency.",
     description:
-      "Our staff transportation model is built for companies that need a dependable daily commute solution for their employees. Routes, timings and vehicle sizing are planned around your shift patterns, with GPS-tracked vehicles and trained drivers on every run.",
+      "Our staff transportation model is built for companies that need a dependable daily commute solution for their employees. Routes, timings, and vehicles are planned around your shift patterns, with GPS-tracked vehicles and trained drivers on every run.",
     icon: Briefcase,
-    image: "/images/fleet/12tt-tempo-traveller.jpg",
+    image: "/images/fleet/17-seater-executive.jpg",
   },
   {
     slug: "school-transportation",
     name: "School Transportation",
     shortDescription:
-      "Safe, monitored transport for students with experienced, background-checked drivers.",
+      "Safe, monitored transport for students with background-checked drivers.",
     description:
-      "We understand that school transport carries a different level of responsibility. Our drivers are trained specifically for student safety, vehicles are fitted with first-aid kits and seat belts, and routes are tracked in real time.",
+      "We understand that student transport carries the highest responsibility. Our drivers are trained specifically for student safety, vehicles are equipped with first-aid kits and seat belts, and routes are tracked in real time for parents and institutions.",
     icon: GraduationCap,
-    image: "/images/fleet/17-seater-executive.jpg",
+    image: "/images/fleet/22-minibus.jpg",
+  },
+  {
+    slug: "airport-transfers",
+    name: "Airport Transfers",
+    shortDescription:
+      "Punctual airport pickups and drop-offs for individuals, executives, and large groups.",
+    description:
+      "Seamless airport connectivity for delegates, executive guests, and large delegations. Our operations desk tracks flight timings to ensure zero waiting time, dedicated luggage handling, and direct transit to hotels or offices.",
+    icon: Plane,
+    image: "/images/fleet/hero-fleet-1.jpg",
+  },
+  {
+    slug: "local-trips",
+    name: "Local Trips & City Rentals",
+    shortDescription:
+      "Flexible city charters for business meetings, delegations, and city tours.",
+    description:
+      "Whether it is single-day city travel, client site visits, or local conferences, our operations team coordinates comfortable travel with experienced drivers who know the city routes inside out.",
+    icon: MapPin,
+    image: "/images/fleet/27-minibus.jpg",
+  },
+  {
+    slug: "outstation-trips",
+    name: "Outstation Trips",
+    shortDescription:
+      "Comfortable long-distance inter-city charters across India for groups and families.",
+    description:
+      "From multi-city corporate tours to long-distance family vacations across states, our outstation services guarantee comfort, reliable highway driving, and comprehensive round-the-clock support.",
+    icon: Compass,
+    image: "/images/fleet/40-dlx-bus.jpg",
+  },
+  {
+    slug: "pan-india-service",
+    name: "PAN India Tours & Pilgrimages",
+    shortDescription:
+      "Comprehensive nationwide tour packages and pilgrimage charters across India.",
+    description:
+      "We operate seamless multi-day tours to heritage sites, pilgrimage destinations, and popular holiday circuits across India. Our dedicated operations team manages customized itineraries for smooth and memorable group journeys.",
+    icon: Landmark,
+    image: "/images/fleet/40-dlx-bus.jpg",
+  },
+  {
+    slug: "weddings-events",
+    name: "Weddings & Event Transport",
+    shortDescription:
+      "Coordinated guest logistics for weddings, conferences, and celebrations.",
+    description:
+      "Weddings and mega events run on tight schedules. We coordinate guest transfers, hotel-to-venue shuttles, and VIP transport so that guest movement is completely smooth and stress-free.",
+    icon: PartyPopper,
+    image: "/images/fleet/27-minibus.jpg",
   },
   {
     slug: "picnics",
     name: "Picnics & Group Outings",
     shortDescription:
-      "Comfortable group travel for family, school or corporate picnics.",
+      "Comfortable group travel for family gatherings, school outings, and team get-togethers.",
     description:
-      "A family, business or student picnic should be about the destination, not the journey. We provide the right vehicle size for your group with a driver who knows the route, so the trip is part of the fun.",
+      "Group outings should be enjoyable right from the pickup. We provide comfortable group vehicles with professional drivers so everyone travels together happily.",
     icon: TreePalm,
     image: "/images/fleet/22-minibus.jpg",
-  },
-  {
-    slug: "weddings-events",
-    name: "Weddings & Events",
-    shortDescription:
-      "Reliable transportation for weddings, conferences and corporate functions.",
-    description:
-      "Weddings, conferences and meetings run on tight schedules. We coordinate vehicle timing closely with your event plan so guest transport is one less thing to worry about on the day.",
-    icon: PartyPopper,
-    image: "/images/fleet/27-minibus.jpg",
-  },
-  {
-    slug: "pilgrimage",
-    name: "Pilgrimage Trips",
-    shortDescription:
-      "Comfortable long-distance travel for pilgrimage and temple tours across India.",
-    description:
-      "India's pilgrimage destinations call for vehicles that can handle long distances comfortably. Our outstation fleet is maintained for multi-day journeys, with a driver allowance structure built for exactly this kind of trip.",
-    icon: Landmark,
-    image: "/images/fleet/40-dlx-bus.jpg",
-  },
-  {
-    slug: "inter-intra-city",
-    name: "Inter & Intra-City Travel",
-    shortDescription:
-      "City and long-distance travel handled by a team of experienced operations staff.",
-    description:
-      "Whether it's a same-day city trip or a multi-state outstation journey, our operations team plans the vehicle, driver and route in advance so the only thing you need to do is get in.",
-    icon: Map,
-    image: "/images/fleet/hero-fleet-1.jpg",
   },
 ];
 
 export function getServiceBySlug(slug: string) {
+  if (slug === "pilgrimage") return SERVICES.find((s) => s.slug === "pan-india-service") || SERVICES[5];
+  if (slug === "inter-intra-city") return SERVICES.find((s) => s.slug === "outstation-trips") || SERVICES[4];
   return SERVICES.find((s) => s.slug === slug);
 }

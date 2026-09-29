@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
@@ -9,79 +7,107 @@ import { SERVICES } from "@/data/services";
 
 export default function Footer() {
   return (
-    <footer
-      className="relative overflow-hidden"
-      style={{ background: "linear-gradient(180deg, var(--bg-surface) 0%, #020208 100%)" }}
-    >
-      {/* Aurora top border */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.6), rgba(6,182,212,0.6), rgba(139,92,246,0.4), transparent)" }}
-      />
-      {/* Aurora blobs */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full opacity-10 blur-3xl" style={{ background: "var(--accent-indigo)" }} />
-        <div className="absolute bottom-0 right-1/4 h-48 w-48 rounded-full opacity-10 blur-3xl" style={{ background: "var(--accent-cyan)" }} />
-      </div>
-      <Container className="relative grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Brand */}
+    <footer className="bg-slate-900 text-slate-300">
+      <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Company Info */}
         <div>
-          <div className="flex items-center gap-3">
-            <Image src="/images/brand/logo-white.svg" alt={COMPANY.name} width={36} height={36} className="h-9 w-9" />
-            <span className="text-base font-semibold text-white">{COMPANY.name}</span>
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/images/brand/logo-white.svg"
+              alt={COMPANY.name}
+              width={36}
+              height={36}
+              className="h-9 w-9"
+            />
+            <span className="text-base font-bold text-white tracking-tight">{COMPANY.name}</span>
           </div>
-          <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            {yearsInBusiness()}+ years of safe, reliable transportation across India.
+          <p className="mt-4 text-sm leading-relaxed text-slate-400">
+            {yearsInBusiness()}+ years of safe, reliable, and premium transportation solutions across India.
           </p>
-          <div className="mt-5 inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-medium"
-            style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.25)", color: "var(--accent-emerald)" }}>
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-blue-950/80 border border-blue-800/60 px-3 py-1 text-xs font-medium text-blue-300">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            GPS-tracked fleet
+            100% GPS-Tracked Operations
           </div>
         </div>
-        {/* Services */}
+
+        {/* Services List */}
         <div>
-          <h3 className="text-sm font-semibold text-white">Services</h3>
+          <h3 className="text-sm font-semibold text-white tracking-wide uppercase">Services</h3>
           <ul className="mt-4 space-y-2.5">
             {SERVICES.slice(0, 5).map((s) => (
               <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="text-sm transition-colors hover:text-cyan-400" style={{ color: "var(--text-muted)" }}>{s.name}</Link>
+                <Link
+                  href={`/services/${s.slug}`}
+                  className="text-sm text-slate-400 transition-colors hover:text-white"
+                >
+                  {s.name}
+                </Link>
               </li>
             ))}
           </ul>
         </div>
-        {/* Quick links */}
+
+        {/* Quick Links (No Fleet / No Estimator) */}
         <div>
-          <h3 className="text-sm font-semibold text-white">Quick links</h3>
+          <h3 className="text-sm font-semibold text-white tracking-wide uppercase">Quick Links</h3>
           <ul className="mt-4 space-y-2.5">
-            {[
-              { href: "/fleet", label: "Our fleet" },
-              { href: "/estimator", label: "Fare estimator" },
-              { href: "/booking", label: "Book a vehicle" },
-              { href: "/about", label: "About us" },
-              { href: "/privacy-policy", label: "Privacy policy" },
-            ].map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className="text-sm transition-colors hover:text-cyan-400" style={{ color: "var(--text-muted)" }}>{link.label}</Link>
-              </li>
-            ))}
+            <li>
+              <Link href="/services" className="text-sm text-slate-400 transition-colors hover:text-white">
+                All Services
+              </Link>
+            </li>
+            <li>
+              <Link href="/booking" className="text-sm text-slate-400 transition-colors hover:text-white">
+                Book a Trip
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="text-sm text-slate-400 transition-colors hover:text-white">
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/contact" className="text-sm text-slate-400 transition-colors hover:text-white">
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacy-policy" className="text-sm text-slate-400 transition-colors hover:text-white">
+                Privacy Policy
+              </Link>
+            </li>
           </ul>
         </div>
-        {/* Contact */}
+
+        {/* Contact Info */}
         <div>
-          <h3 className="text-sm font-semibold text-white">Contact</h3>
-          <ul className="mt-4 space-y-3 text-sm" style={{ color: "var(--text-muted)" }}>
-            <li className="flex items-start gap-2.5"><MapPin size={15} className="mt-0.5 shrink-0 opacity-60" />{COMPANY.address.full}</li>
-            <li className="flex items-center gap-2.5"><Phone size={15} className="shrink-0 opacity-60" /><a href={buildTelLink()} className="hover:text-white">{COMPANY.contact.primaryPhoneDisplay}</a></li>
-            <li className="flex items-center gap-2.5"><Mail size={15} className="shrink-0 opacity-60" /><a href={`mailto:${COMPANY.contact.salesEmail}`} className="hover:text-white">{COMPANY.contact.salesEmail}</a></li>
+          <h3 className="text-sm font-semibold text-white tracking-wide uppercase">Contact</h3>
+          <ul className="mt-4 space-y-3 text-sm text-slate-400">
+            <li className="flex items-start gap-2.5">
+              <MapPin size={16} className="mt-0.5 shrink-0 text-blue-400" />
+              <span>{COMPANY.address.full}</span>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <Phone size={16} className="shrink-0 text-blue-400" />
+              <a href={buildTelLink()} className="hover:text-white transition-colors">
+                {COMPANY.contact.primaryPhoneDisplay}
+              </a>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <Mail size={16} className="shrink-0 text-blue-400" />
+              <a href={`mailto:${COMPANY.contact.salesEmail}`} className="hover:text-white transition-colors">
+                {COMPANY.contact.salesEmail}
+              </a>
+            </li>
           </ul>
         </div>
       </Container>
-      {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs sm:flex-row" style={{ color: "var(--text-subtle)" }}>
+
+      {/* Copyright Bar */}
+      <div className="border-t border-slate-800 py-6">
+        <Container className="flex flex-col items-center justify-between gap-3 text-xs text-slate-400 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} {COMPANY.legalName}. All rights reserved.</p>
-          <p>Operating since {COMPANY.foundedYear} &middot; Secunderabad, Telangana</p>
+          <p>Serving Corporate & Group Travel Since {COMPANY.foundedYear} &middot; PAN India Operations</p>
         </Container>
       </div>
     </footer>

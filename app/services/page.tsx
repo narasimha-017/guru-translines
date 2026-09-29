@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Container from "@/components/shared/Container";
@@ -7,21 +5,21 @@ import SectionHeading from "@/components/shared/SectionHeading";
 import FadeIn from "@/components/shared/FadeIn";
 import { SERVICES } from "@/data/services";
 
+export const metadata = {
+  title: "Transportation Services",
+  description:
+    "Comprehensive transportation solutions across India — corporate staff commutes, school transport, airport transfers, weddings, and long-distance outstation travel.",
+};
+
 export default function ServicesPage() {
   return (
-    <div className="relative py-16 sm:py-24" style={{ background: "var(--bg-base)" }}>
-      {/* Aurora glow blobs */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute right-1/4 top-10 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-emerald)" }} />
-        <div className="absolute left-1/4 bottom-10 h-72 w-72 rounded-full opacity-15 blur-3xl" style={{ background: "var(--accent-cyan)" }} />
-      </div>
-
-      <Container className="relative">
+    <div className="bg-white py-16 sm:py-24">
+      <Container>
         <FadeIn>
           <SectionHeading
-            eyebrow="Tailored Mobility"
-            title="Comprehensive Transport Services"
-            description="From daily enterprise staff commuting to multi-day wedding parties and pilgrimages across India."
+            eyebrow="Our Offerings"
+            title="Comprehensive Transport Solutions Across India"
+            description="From daily enterprise staff commuting to corporate events, airport transfers, and long-distance outstation journeys across India."
           />
         </FadeIn>
 
@@ -29,34 +27,30 @@ export default function ServicesPage() {
           {SERVICES.map((s, i) => {
             const Icon = s.icon;
             return (
-              <FadeIn key={s.slug} delay={i * 0.08}>
-                <div
-                  className="flex h-full flex-col justify-between rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    background: "var(--glass-bg)",
-                    border: "1px solid var(--glass-border)",
-                    backdropFilter: "blur(16px)",
-                  }}
-                >
+              <FadeIn key={s.slug} delay={i * 0.05}>
+                <div className="group flex h-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-7 shadow-xs transition-all duration-200 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md hover:shadow-blue-500/5">
                   <div>
-                    <div
-                      className="flex h-12 w-12 items-center justify-center rounded-xl"
-                      style={{ background: "rgba(16, 185, 129, 0.15)", border: "1px solid rgba(16, 185, 129, 0.35)", color: "#34d399" }}
-                    >
-                      <Icon size={22} />
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white">
+                      <Icon size={24} />
                     </div>
-                    <h3 className="mt-5 text-xl font-bold text-white">{s.name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    <h3 className="mt-5 text-xl font-bold text-gray-900">{s.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
                       {s.shortDescription}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t" style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
+                  <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
                     <Link
                       href={`/services/${s.slug}`}
-                      className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-400 transition-colors hover:text-emerald-300"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-800"
                     >
-                      Explore Service Details <ArrowRight size={15} />
+                      Explore Service <ArrowRight size={15} />
+                    </Link>
+                    <Link
+                      href="/booking"
+                      className="text-xs font-semibold text-gray-500 hover:text-blue-600"
+                    >
+                      Book Now &rarr;
                     </Link>
                   </div>
                 </div>

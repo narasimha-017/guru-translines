@@ -3,7 +3,6 @@ export const COMPANY = {
   legalName: "Guru Translines Pvt Ltd",
   foundedYear: 1983,
   renamedYear: 2013,
-  fleetSize: 55,
   address: {
     line1: "Plot No. 64, Samrat Colony",
     line2: "West Marredpally",
@@ -21,7 +20,6 @@ export const COMPANY = {
     financePhoneDisplay: "94939 26000",
   },
   social: {
-    // Add real profile URLs when available.
     facebook: "",
     instagram: "",
   },
@@ -43,44 +41,80 @@ export function yearsInBusiness() {
   return new Date().getFullYear() - COMPANY.foundedYear;
 }
 
-interface WhatsAppQuoteParams {
-  vehicle?: string;
+export interface WhatsAppLeadParams {
+  name?: string;
   tripType?: string;
   pickup?: string;
   drop?: string;
+  travelDate?: string;
+  returnDate?: string;
+  passengers?: number | string;
+  requirement?: string;
+  message?: string;
+  vehicle?: string;
   date?: string;
-  passengers?: string | number;
   estimatedFare?: string;
 }
 
-export function buildWhatsAppQuoteMessage(params: WhatsAppQuoteParams) {
+export function buildWhatsAppLeadMessage(params: WhatsAppLeadParams): string {
   const lines = [
-    "Hello Guru Translines,",
+    "Hello Guru Translines, I would like to enquire about a trip.",
     "",
-    "I would like a quotation for:",
-    "",
-    `Vehicle: ${params.vehicle ?? "-"}`,
-    `Trip Type: ${params.tripType ?? "-"}`,
-    `Pickup: ${params.pickup ?? "-"}`,
-    `Drop: ${params.drop ?? "-"}`,
-    `Date: ${params.date ?? "-"}`,
-    `Passengers: ${params.passengers ?? "-"}`,
+    `Name: ${params.name || "-"}`,
+    `Trip type: ${params.tripType || "-"}`,
+    `Pickup: ${params.pickup || "-"}`,
+    `Drop: ${params.drop || "-"}`,
+    `Travel date: ${params.travelDate || params.date || "-"}`,
   ];
 
-  if (params.estimatedFare) {
-    lines.push(`Estimated Fare: ${params.estimatedFare}`);
+  if (params.returnDate) {
+    lines.push(`Return date: ${params.returnDate}`);
   }
 
-  lines.push("", "Please contact me.");
+  lines.push(`Passengers: ${params.passengers || "-"}`);
+
+  if (params.requirement || params.vehicle) {
+    lines.push(`Requirement: ${params.requirement || params.vehicle}`);
+  }
+
+  if (params.message) {
+    lines.push(`Notes: ${params.message}`);
+  }
+
+  lines.push("", "I have submitted my enquiry through the website.");
 
   return lines.join("\n");
 }
 
-export function buildWhatsAppLink(message: string, phone: string = COMPANY.contact.primaryPhone) {
+export function buildWhatsAppQuoteMessage(params: Partial<WhatsAppLeadParams>): string {
+  const lines = [
+    "Hello Guru Translines, I would like to enquire about a trip across India.",
+    "",
+    `Trip type: ${params.tripType || "General Enquiry"}`,
+  ];
+
+  if (params.pickup && params.drop) {
+    lines.push(`Route: ${params.pickup} to ${params.drop}`);
+  }
+
+  if (params.travelDate || params.date) {
+    lines.push(`Date: ${params.travelDate || params.date}`);
+  }
+
+  if (params.passengers) {
+    lines.push(`Passengers: ${params.passengers}`);
+  }
+
+  lines.push("", "Please assist me with details.");
+
+  return lines.join("\n");
+}
+
+export function buildWhatsAppLink(message: string, phone: string = COMPANY.contact.primaryPhone): string {
   const cleanPhone = phone.replace(/[^\d+]/g, "");
   return `https://wa.me/${cleanPhone.replace("+", "")}?text=${encodeURIComponent(message)}`;
 }
 
-export function buildTelLink(phone: string = COMPANY.contact.primaryPhone) {
+export function buildTelLink(phone: string = COMPANY.contact.primaryPhone): string {
   return `tel:${phone}`;
 }

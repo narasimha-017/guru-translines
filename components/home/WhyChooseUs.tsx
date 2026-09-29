@@ -1,66 +1,59 @@
-"use client";
-
-import { ShieldCheck, Clock, Wrench, IndianRupee, UserCheck } from "lucide-react";
-import { motion } from "framer-motion";
+import { ShieldCheck, Clock, MapPin, UserCheck, CheckCircle } from "lucide-react";
 import Container from "@/components/shared/Container";
-import { COMPANY } from "@/lib/company";
+import SectionHeading from "@/components/shared/SectionHeading";
+import FadeIn from "@/components/shared/FadeIn";
 
 const POINTS = [
-  { icon: UserCheck, title: "Professional drivers", description: "Every driver is vetted, trained and experienced with both city and highway routes.", color: "#3b82f6", glow: "rgba(59,130,246,0.25)" },
-  { icon: Clock, title: "24/7 support", description: "Our operations team is reachable around the clock for booking changes or on-trip support.", color: "#06b6d4", glow: "rgba(6,182,212,0.25)" },
-  { icon: ShieldCheck, title: "Safe travel", description: `GPS-tracked vehicles fitted with seat belts, fire extinguishers and first-aid kits.`, color: "#10b981", glow: "rgba(16,185,129,0.25)" },
-  { icon: Wrench, title: "Well-maintained fleet", description: `A ${COMPANY.fleetSize}-vehicle fleet kept to a strict maintenance and servicing schedule.`, color: "#f59e0b", glow: "rgba(245,158,11,0.25)" },
-  { icon: IndianRupee, title: "Transparent pricing", description: "Clear, upfront fares with no hidden charges — see exactly what you pay for.", color: "#8b5cf6", glow: "rgba(139,92,246,0.25)" },
+  {
+    icon: UserCheck,
+    title: "Professional Drivers",
+    description: "Every driver is thoroughly vetted, experienced with city and interstate routes, and trained in defensive driving.",
+  },
+  {
+    icon: MapPin,
+    title: "PAN India Coverage",
+    description: "Seamless travel network connecting major cities, commercial hubs, airport terminals, and tourist circuits across India.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "100% GPS & Safety",
+    description: "Real-time vehicle tracking, emergency safety provisions, first-aid kits, and statutory passenger compliance.",
+  },
+  {
+    icon: Clock,
+    title: "24/7 Operations Support",
+    description: "Our dedicated dispatch and support team is available round the clock for live trip coordination and immediate booking assistance.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Punctual & Dependable",
+    description: "Over 40 years of trusted on-time service tailored for strict corporate shift schedules, flights, and event timings.",
+  },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative py-20 sm:py-28 bg-transparent">
+    <section className="bg-slate-50 py-20 sm:py-28">
       <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--accent-blue)" }}>Why choose us</span>
-          <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl" style={{ letterSpacing: "-0.03em" }}>
-            Built on four decades of trust
-          </h2>
-        </motion.div>
+        <FadeIn>
+          <SectionHeading
+            eyebrow="Why Choose Us"
+            title="Built on Four Decades of Trust & Excellence"
+            description="Leading businesses, educational institutions, and travelers rely on Guru Translines for safe, reliable mobility."
+          />
+        </FadeIn>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {POINTS.map((point, i) => {
             const Icon = point.icon;
             return (
-              <motion.div
-                key={point.title}
-                initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="card-3d-wrapper"
-              >
-                <motion.div
-                  className="card-3d glass glass-hover rounded-2xl p-6 text-center"
-                  whileHover={{ rotateX: -6, rotateY: 4, scale: 1.04 }}
-                  transition={{ type: "spring", stiffness: 280, damping: 18 }}
-                  style={{ boxShadow: `0 0 24px ${point.glow}`, minHeight: "200px" }}
-                >
-                  {/* 3D floating icon */}
-                  <motion.div
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut" }}
-                    className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl"
-                    style={{ background: `${point.glow}`, border: `1px solid ${point.color}40`, boxShadow: `0 0 16px ${point.glow}` }}
-                  >
-                    <Icon size={24} style={{ color: point.color }} />
-                  </motion.div>
-                  <h3 className="mt-5 text-sm font-semibold text-white">{point.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>{point.description}</p>
-                </motion.div>
-              </motion.div>
+              <FadeIn key={point.title} delay={i * 0.05} className="text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white border border-blue-100 text-blue-600 shadow-xs">
+                  <Icon size={26} />
+                </div>
+                <h3 className="mt-4 text-base font-bold text-gray-900">{point.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-600">{point.description}</p>
+              </FadeIn>
             );
           })}
         </div>
