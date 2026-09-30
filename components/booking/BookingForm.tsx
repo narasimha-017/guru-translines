@@ -174,10 +174,10 @@ export default function BookingForm() {
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data.success) {
-        throw new Error(data.message || "We couldn't save your enquiry right now. Please try again or contact us directly.");
+        throw new Error(data.error || data.message || `Submission failed with status ${res.status}`);
       }
 
       // Success: Save lead recorded and trigger WhatsApp redirect

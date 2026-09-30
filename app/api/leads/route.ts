@@ -43,11 +43,16 @@ export async function POST(req: Request) {
 
     // Check if Supabase is initialized
     if (!supabase) {
-      console.error("Supabase client is not configured. Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY.");
+      const missingVars: string[] = [];
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL) missingVars.push("NEXT_PUBLIC_SUPABASE_URL");
+      if (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) missingVars.push("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
+      const errorMsg = `Supabase is not configured. Missing environment variable(s): ${missingVars.join(", ") || "NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"}`;
+      console.error(errorMsg);
       return NextResponse.json(
         {
           success: false,
-          message: "Database service is not configured. Please contact the administrator or reach out directly by phone.",
+          message: errorMsg,
+          error: errorMsg,
         },
         { status: 503 }
       );
@@ -74,19 +79,20 @@ export async function POST(req: Request) {
       status: "new",
     };
 
-    const { data: inserted, error: dbError } = await supabase
+    const { error: dbError } = await supabase
       .from("leads")
-      .insert([leadPayload])
-      .select("id")
-      .single();
+      .insert([leadPayload]);
 
     if (dbError) {
       console.error("Supabase lead insertion error:", dbError);
       return NextResponse.json(
         {
           success: false,
-          message: "We couldn't save your enquiry right now. Please try again or contact us directly.",
+          message: `Supabase error: ${dbError.message || "Failed to save enquiry"}`,
           error: dbError.message,
+          details: dbError.details || null,
+          hint: dbError.hint || null,
+          code: dbError.code || null,
         },
         { status: 500 }
       );
@@ -109,7 +115,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      leadId: inserted?.id || null,
       whatsappUrl,
       message: "Lead recorded successfully. Redirecting to WhatsApp...",
     });
